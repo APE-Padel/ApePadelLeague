@@ -31,21 +31,15 @@ APE Padel League web platform is a monorepo that contains two main projects:
 ```
 / (root)
 ├─ README.md                
-├─ package.json             
-├─ .github/                 
 ├─ backend/
 │  ├─ package.json
-│  ├─ src/
-│  ├─ Dockerfile
-│  └─ README.md
-├─ frontend/
-│  ├─ package.json
-│  ├─ src/
-│  ├─ Dockerfile
-│  └─ README.md
-├─ infra/                    
-└─ docs/
-   └─ openapi.yaml
+│  ├─ controllers/
+│  ├─ data/
+│  ├─ .gitignore
+│  ├─ server.js
+│  ├─ routes.js
+│  └─ middleware.js
+└─ frontend/
 ```
 
 ---
@@ -62,8 +56,8 @@ APE Padel League web platform is a monorepo that contains two main projects:
 pnpm install
 ```
 
-3. Create `.env` files for `backend/` and `frontend/`
-4. Run backend in dev:
+3. Create `.env` files for `backend/` and `frontend/` following .env.example
+4. Run backend in dev: ```npm start```
 5. Run frontend in dev:
 
 ---
