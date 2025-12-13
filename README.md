@@ -12,13 +12,8 @@
 4. [Functional requirements](#functional-requirements)
 5. [Technical requirements](#technical-requirements)
 6. [API surface / endpoints (suggested)](#api-surface--endpoints-suggested)
-7. [Database (NoSQL) collections and suggested schemas](#database-nosql-collections-and-suggested-schemas)
-9. [Frontend — options & recommendations](#frontend--options--recommendations)
-10. [Testing, CI/CD and quality gates](#testing-cicd-and-quality-gates)
-11. [Deployment & infra suggestions](#deployment--infra-suggestions)
-12. [Security and privacy](#security-and-privacy)
-13. [Development workflow & conventions](#development-workflow--conventions)
-14. [Roadmap & contribution](#roadmap--contribution)
+7. [Database schemas](#database-schemas)
+8. [Deployment](#deployment)
 
 ---
 
