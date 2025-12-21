@@ -7,14 +7,17 @@ startServer();
 
 function startServer() {
     const app = express();
-    const PORT = process.env.PORT || 3000;
 
     app.use(express.json());
-
     app.use("/", routes);
 
-    app.listen(PORT, () => {
-        console.log(`Server running on http://localhost:${PORT}`);
-    });
+    if (!process.env.VERCEL) {
+        const PORT = process.env.PORT || 3000;
+        app.listen(PORT, () => {
+            console.log(`Server running on http://localhost:${PORT}`);
+        });
+    }
+
+    module.exports = app;
 }
 
