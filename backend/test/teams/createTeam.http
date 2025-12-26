@@ -1,0 +1,9 @@
+POST http://localhost:3000/teams HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Ape Padel Warriors",
+    "court": "Central Court",
+    "players": ["Alice", "Bob"],
+    "logoBase64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA\nAAAAFCAYAAACNbyblAAAAHElEQVQI12P4\n//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
+}
