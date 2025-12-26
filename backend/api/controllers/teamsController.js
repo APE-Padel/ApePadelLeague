@@ -13,7 +13,7 @@ export const createTeam = async (req, res) => {
 
 export const getAllTeams = async (_, res) => {
   try {
-    const teams = await Client.getAllTeams();
+    const teams = await Client.getTeams();
     res.json(teams);
   } catch (err) {
     console.error(err);

@@ -1,7 +1,7 @@
 import Team from '../models/team.js';
 
-export async function getAllTeams() {
-  const result = await Team.find();
+export async function getTeams(filters = {}) {
+  const result = await Team.find(filters);
   return result;
 }
 

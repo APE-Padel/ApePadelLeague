@@ -1,0 +1,7 @@
+POST http://localhost:3000/seasons
+Content-Type: application/json
+
+{
+    "name": "APE Padel League 2026",
+    "isActive": true
+}
