@@ -1,7 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 import routes from "./routes.js";
 import mongoose from "mongoose";
+import { swaggerUi, swaggerSpec } from "./swagger.js";
 
 dotenv.config();
 
@@ -19,7 +21,12 @@ const connectDB = async () => {
   }
 }
 
+app.use(cors());
 app.use(express.json());
+
+// Swagger docs
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 app.use("/", routes);
 await connectDB();
 
