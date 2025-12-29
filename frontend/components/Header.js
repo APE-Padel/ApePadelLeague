@@ -17,7 +17,8 @@ import Image from 'next/image';
 const pages = [
   { displayName: 'Inici', path: '/' },
   { displayName: 'Calendari', path: '/calendar' },
-  { displayName: 'Registrar', path: '/register' }
+  { displayName: 'Equips', path: '/teams' },
+  { displayName: 'Admin', path: '/admin' }
 ];
 
 function Header() {

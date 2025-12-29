@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import {
   Box,
   Container,
@@ -14,9 +15,12 @@ import {
   TextField,
   Alert,
   CircularProgress,
-  Stack
+  Stack,
+  Breadcrumbs
 } from '@mui/material';
 import SportsTennisIcon from '@mui/icons-material/SportsTennis';
+import HomeIcon from '@mui/icons-material/Home';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 export default function RegisterMatch() {
   const router = useRouter();
@@ -152,11 +156,23 @@ export default function RegisterMatch() {
 
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
+      <Breadcrumbs 
+        separator={<NavigateNextIcon fontSize="small" />} 
+        sx={{ mb: 3 }}
+        aria-label="breadcrumb"
+      >
+        <Link href="/admin" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}>
+          <HomeIcon sx={{ mr: 0.5 }} fontSize="small" />
+          Admin
+        </Link>
+        <Typography color="text.primary">Gestió de Partits</Typography>
+      </Breadcrumbs>
+
       <Box sx={{ p: 4 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 3 }}>
           <SportsTennisIcon sx={{ fontSize: 40, mr: 2, color: 'primary.main' }} />
           <Typography variant="h4" component="h1">
-            Registrar Partit
+            Gestió de Partits
           </Typography>
         </Box>
 
