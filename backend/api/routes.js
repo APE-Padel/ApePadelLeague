@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createSeason } from "./controllers/seasonsController.js";
+import { createSeason, getAllSeasons } from "./controllers/seasonsController.js";
 import { getAllTeams, createTeam } from "./controllers/teamsController.js";
 import { createMatch, getActiveSeasonMatches } from "./controllers/matchesController.js";
 
@@ -16,6 +16,24 @@ const router = Router();
  *         description: API is working
  */
 router.get("/", (_, res) => (res.send("API is working")));
+
+/**
+ * @swagger
+ * /seasons:
+ *   get:
+ *     summary: Get all seasons
+ *     tags: [Seasons]
+ *     responses:
+ *       200:
+ *         description: List of all seasons
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Season'
+ */
+router.get("/seasons", getAllSeasons);
 
 /**
  * @swagger
