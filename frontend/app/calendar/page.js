@@ -11,13 +11,19 @@ import {
   Stack,
   Chip,
   Divider,
-  CircularProgress
+  CircularProgress,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem
 } from '@mui/material';
 import SportsIcon from '@mui/icons-material/Sports';
 
 export default function Calendar() {
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedRound, setSelectedRound] = useState('all');
+  const [rounds, setRounds] = useState([]);
 
   useEffect(() => {
     const fetchMatches = async () => {
@@ -25,6 +31,15 @@ export default function Calendar() {
         const response = await fetch('http://localhost:3000/seasons/active/matches');
         const data = await response.json();
         setMatches(data);
+        
+        // Extract unique rounds and sort them
+        const uniqueRounds = [...new Set(data.map(match => match.round))].sort((a, b) => a - b);
+        setRounds(uniqueRounds);
+        
+        // Set current round as default (highest round number)
+        if (uniqueRounds.length > 0) {
+          setSelectedRound(Math.max(...uniqueRounds));
+        }
       } catch (error) {
         console.error('Error fetching matches:', error);
       } finally {
@@ -75,19 +90,43 @@ export default function Calendar() {
     );
   }
 
+  // Filter matches by selected round
+  const filteredMatches = selectedRound === 'all' 
+    ? matches 
+    : matches.filter(match => match.round === selectedRound);
+
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Typography variant="h3" component="h1" align="center" gutterBottom sx={{ mb: 4 }}>
         Calendari de Partits
       </Typography>
 
+      {/* Round Filter */}
+      <Box sx={{ mb: 4, display: 'flex', justifyContent: 'center' }}>
+        <FormControl sx={{ minWidth: 200 }}>
+          <InputLabel>Ronda</InputLabel>
+          <Select
+            value={selectedRound}
+            label="Ronda"
+            onChange={(e) => setSelectedRound(e.target.value)}
+          >
+            <MenuItem value="all">Totes les rondes</MenuItem>
+            {rounds.map((round) => (
+              <MenuItem key={round} value={round}>
+                Ronda {round}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
+
       <Stack spacing={3}>
-        {matches.length === 0 ? (
+        {filteredMatches.length === 0 ? (
           <Typography variant="h6" align="center" color="text.secondary">
             No hi ha partits programats
           </Typography>
         ) : (
-          matches.map((match) => (
+          filteredMatches.map((match) => (
             <Card 
               key={match._id} 
               elevation={3}
