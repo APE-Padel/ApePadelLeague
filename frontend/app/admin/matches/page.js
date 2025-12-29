@@ -44,8 +44,8 @@ export default function RegisterMatch() {
     const fetchData = async () => {
       try {
         const [teamsRes, seasonsRes] = await Promise.all([
-          fetch('http://localhost:3000/teams'),
-          fetch('http://localhost:3000/seasons')
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/teams`),
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/seasons`)
         ]);
         
         const teamsData = await teamsRes.json();
@@ -96,7 +96,7 @@ export default function RegisterMatch() {
     setSubmitting(true);
 
     try {
-      const response = await fetch('http://localhost:3000/matches', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/matches`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

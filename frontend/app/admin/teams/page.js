@@ -48,7 +48,7 @@ export default function TeamsAdmin() {
 
   const fetchTeams = async () => {
     try {
-      const response = await fetch('http://localhost:3000/teams');
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/teams`);
       const data = await response.json();
       setTeams(data);
     } catch (error) {
@@ -94,7 +94,7 @@ export default function TeamsAdmin() {
         .map(p => p.trim())
         .filter(p => p.length > 0);
 
-      const response = await fetch('http://localhost:3000/teams', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/teams`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

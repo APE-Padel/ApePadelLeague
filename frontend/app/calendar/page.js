@@ -28,7 +28,7 @@ export default function Calendar() {
   useEffect(() => {
     const fetchMatches = async () => {
       try {
-        const response = await fetch('http://localhost:3000/seasons/active/matches');
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/seasons/active/matches`);
         const data = await response.json();
         setMatches(data);
         
