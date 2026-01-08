@@ -9,11 +9,12 @@
 1. [Project overview](#project-overview)
 2. [Monorepo structure](#monorepo-structure)
 3. [Quick start](#quick-start)
-4. [Functional requirements](#functional-requirements)
-5. [Technical requirements](#technical-requirements)
-6. [API surface / endpoints (suggested)](#api-surface--endpoints-suggested)
-7. [Database schemas](#database-schemas)
-8. [Deployment](#deployment)
+4. [API Documentation](#api-documentation)
+5. [Functional requirements](#functional-requirements)
+6. [Technical requirements](#technical-requirements)
+7. [API surface / endpoints (suggested)](#api-surface--endpoints-suggested)
+8. [Database schemas](#database-schemas)
+9. [Deployment](#deployment)
 
 ---
 
@@ -49,16 +50,64 @@ APE Padel League web platform is a monorepo that contains two main projects:
 **Prerequisites**: Node.js v24.12.0 pnpm/yarn/npm
 
 1. Clone the repo
-2. Install dependencies (from repo root):
+2. Install dependencies:
 
 ```bash
-# using pnpm (example)
-pnpm install
+# Backend
+cd backend
+npm install
+
+# Frontend
+cd frontend
+npm install
 ```
 
 3. Create `.env` files for `backend/` and `frontend/` following .env.example
-4. Run backend in dev: ```npm start```
+4. Run backend in dev:
+
+```bash
+cd backend
+npm run dev
+```
+
 5. Run frontend in dev:
+
+```bash
+cd frontend
+npm run dev
+```
+
+6. Access the applications:
+   - Backend API: http://localhost:3000
+   - Frontend: http://localhost:3001 (or next available port)
+   - API Documentation (Swagger): http://localhost:3000/api-docs
+
+---
+
+## API Documentation
+
+The backend API includes interactive Swagger documentation powered by `swagger-ui-express` and `swagger-jsdoc`.
+
+**Access Swagger UI**: http://localhost:3000/api-docs
+
+The documentation provides:
+- Complete API endpoint reference
+- Request/response schemas
+- Interactive "Try it out" functionality
+- Example payloads
+
+### Available Endpoints
+
+**Seasons**
+- `POST /seasons` - Create a new season
+
+**Teams**
+- `GET /teams` - Get all teams
+- `POST /teams` - Create a new team
+
+**Matches**
+- `GET /seasons/active/matches` - Get matches for the active season
+- `POST /matches` - Create a new match
 
 ---
 
