@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 import routes from "./routes.js";
 import mongoose from "mongoose";
 import { swaggerUi, swaggerSpec } from "./swagger.js";
@@ -20,6 +21,7 @@ const connectDB = async () => {
   }
 }
 
+app.use(cors());
 app.use(express.json());
 
 // Swagger docs
