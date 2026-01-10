@@ -13,13 +13,16 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import Drawer from "@mui/material/Drawer";
 import MenuIcon from "@mui/icons-material/Menu";
+import { featureFlags } from "@/lib/featureFlags";
 
 const pages = [
-  { displayName: "Inici", path: "/" },
-  { displayName: "Calendari", path: "/calendar" },
-  { displayName: "Equips", path: "/teams" },
-  { displayName: "Admin", path: "/admin" },
+  { displayName: "Inici", path: "/", enabled: true },
+  { displayName: "Calendari", path: "/calendar", enabled: featureFlags.calendar },
+  { displayName: "Equips", path: "/teams", enabled: featureFlags.teams },
+  { displayName: "Admin", path: "/admin", enabled: featureFlags.admin },
 ];
+
+const visiblePages = pages.filter(page => page.enabled);
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -47,7 +50,7 @@ export default function Header() {
 
             {/* Desktop Menu */}
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              {pages.map((page) => (
+              {visiblePages.map((page) => (
                 <Link
                   key={page.displayName}
                   href={page.path}
@@ -120,7 +123,7 @@ export default function Header() {
             gap: 2,
           }}
         >
-          {pages.map((page) => (
+          {visiblePages.map((page) => (
             <Link
               key={page.displayName}
               href={page.path}

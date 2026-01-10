@@ -22,6 +22,7 @@ import SportsTennisIcon from '@mui/icons-material/SportsTennis';
 import HomeIcon from '@mui/icons-material/Home';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import PadelBallLoader from '@/components/PadelBallLoader';
+import { featureFlags } from '@/lib/featureFlags';
 
 export default function RegisterMatch() {
   const router = useRouter();
@@ -146,6 +147,10 @@ export default function RegisterMatch() {
       setSubmitting(false);
     }
   };
+
+  if (!featureFlags.adminMatches) {
+    return notFound();
+  }
 
   if (loading) {
     return (

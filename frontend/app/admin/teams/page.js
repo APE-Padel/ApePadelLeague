@@ -20,6 +20,8 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import PadelBallLoader from '@/components/PadelBallLoader';
+import { featureFlags } from '@/lib/featureFlags';
+import { notFound } from 'next/navigation';
 
 const modalStyle = {
   position: 'absolute',
@@ -129,6 +131,10 @@ export default function TeamsAdmin() {
       setSubmitting(false);
     }
   };
+
+  if (!featureFlags.adminTeams) {
+    return notFound();
+  }
 
   if (loading) {
     return (

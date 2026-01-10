@@ -18,6 +18,8 @@ import {
 } from '@mui/material';
 import SportsIcon from '@mui/icons-material/Sports';
 import PadelBallLoader from '@/components/PadelBallLoader';
+import { featureFlags } from '@/lib/featureFlags';
+import { notFound } from 'next/navigation';
 
 export default function Calendar() {
   const [matches, setMatches] = useState([]);
@@ -81,6 +83,10 @@ export default function Calendar() {
       default: return status.toUpperCase();
     }
   };
+
+  if (!featureFlags.calendar) {
+    return notFound();
+  }
 
   if (loading) {
     return (
