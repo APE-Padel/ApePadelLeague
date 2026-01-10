@@ -19,6 +19,7 @@ import {
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
+import PadelBallLoader from '@/components/PadelBallLoader';
 
 const modalStyle = {
   position: 'absolute',
@@ -131,9 +132,7 @@ export default function TeamsAdmin() {
 
   if (loading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="80vh">
-        <CircularProgress />
-      </Box>
+      <PadelBallLoader />
     );
   }
 

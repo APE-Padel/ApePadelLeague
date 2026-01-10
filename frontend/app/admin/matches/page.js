@@ -21,6 +21,7 @@ import {
 import SportsTennisIcon from '@mui/icons-material/SportsTennis';
 import HomeIcon from '@mui/icons-material/Home';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import PadelBallLoader from '@/components/PadelBallLoader';
 
 export default function RegisterMatch() {
   const router = useRouter();
@@ -148,9 +149,7 @@ export default function RegisterMatch() {
 
   if (loading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="80vh">
-        <CircularProgress />
-      </Box>
+      <PadelBallLoader />
     );
   }
 

@@ -10,12 +10,12 @@ import {
   Avatar,
   Grid,
   Chip,
-  CircularProgress,
   Fade,
   Stack
 } from '@mui/material';
 import GroupsIcon from '@mui/icons-material/Groups';
 import PersonIcon from '@mui/icons-material/Person';
+import PadelBallLoader from '@/components/PadelBallLoader';
 
 export default function Teams() {
   const [teams, setTeams] = useState([]);
@@ -39,9 +39,7 @@ export default function Teams() {
 
   if (loading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="80vh">
-        <CircularProgress />
-      </Box>
+      <PadelBallLoader />
     );
   }
 
