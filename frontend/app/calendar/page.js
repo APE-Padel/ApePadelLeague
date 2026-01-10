@@ -11,13 +11,15 @@ import {
   Stack,
   Chip,
   Divider,
-  CircularProgress,
   FormControl,
   InputLabel,
   Select,
   MenuItem
 } from '@mui/material';
 import SportsIcon from '@mui/icons-material/Sports';
+import PadelBallLoader from '@/components/PadelBallLoader';
+import { featureFlags } from '@/lib/featureFlags';
+import { notFound } from 'next/navigation';
 
 export default function Calendar() {
   const [matches, setMatches] = useState([]);
@@ -82,11 +84,13 @@ export default function Calendar() {
     }
   };
 
+  if (!featureFlags.calendar) {
+    return notFound();
+  }
+
   if (loading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="80vh">
-        <CircularProgress />
-      </Box>
+      <PadelBallLoader />
     );
   }
 

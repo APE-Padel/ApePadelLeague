@@ -1,5 +1,3 @@
-'use client';
-
 import Link from 'next/link';
 import {
   Box,
@@ -11,11 +9,12 @@ import {
   CardActionArea
 } from '@mui/material';
 import GroupsIcon from '@mui/icons-material/Groups';
-import SportsTennisIcon from '@mui/icons-material/SportsTennis';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import PersonIcon from '@mui/icons-material/Person';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { featureFlags } from '@/lib/featureFlags';
+import { notFound } from 'next/navigation';
 
 const adminSections = [
   {
@@ -56,6 +55,10 @@ const adminSections = [
 ];
 
 export default function AdminPage() {
+  if (!featureFlags.admin) {
+    return notFound();
+  }
+
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Typography variant="h3" component="h1" gutterBottom sx={{ mb: 4 }}>
