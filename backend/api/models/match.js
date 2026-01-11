@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
+import { MATCH_STATUS } from '../constants.js';
 
-const matchStatusEnum = ['scheduled', 'completed', 'canceled', 'postponed'];
+const matchStatusEnum = Object.values(MATCH_STATUS);
 
 const matchSchema = new mongoose.Schema({
     season: { type: mongoose.Schema.Types.ObjectId, ref: 'Season', required: true },
@@ -17,7 +18,7 @@ const matchSchema = new mongoose.Schema({
         from: { type: Date, required: true },
         to: { type: Date, required: true }
     },
-    status: { type: String, enum: matchStatusEnum, default: 'scheduled' }
+    status: { type: String, enum: matchStatusEnum, default: MATCH_STATUS.SCHEDULED }
     }, { timestamps: true });
 
 export default mongoose.model('Match', matchSchema);

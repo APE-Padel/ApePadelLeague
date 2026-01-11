@@ -9,3 +9,22 @@ export async function getStandings(filters = {}) {
   return result;
 }
 
+export async function createStandings(standingsProps) {
+  const standings = new Standings(standingsProps);
+  const result = await standings.save();
+  return result;
+}
+
+export async function updateStandingsById(standingsId, updateProps) {
+  if (!mongoose.Types.ObjectId.isValid(standingsId)) {
+    throw new Error('Invalid standings ID');
+  }
+
+  const updatedStandings = await Standings.findByIdAndUpdate(
+    standingsId,
+    updateProps,
+    { new: true }
+  );
+
+  return updatedStandings;
+}
