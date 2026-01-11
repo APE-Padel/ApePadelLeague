@@ -2,6 +2,7 @@ import { Router } from "express";
 import { createSeason, getAllSeasons } from "./controllers/seasonsController.js";
 import { getAllTeams, createTeam } from "./controllers/teamsController.js";
 import { createMatch, getActiveSeasonMatches } from "./controllers/matchesController.js";
+import { getActiveSeasonStandings } from "./controllers/standingsController.js";
 
 const router = Router();
 
@@ -147,4 +148,19 @@ router.get("/seasons/active/matches", getActiveSeasonMatches);
  */
 router.post("/matches", createMatch);
 
+/**
+ * @swagger
+ * /seasons/active/standings:
+ *   get:
+ *     summary: Get standings for active season
+ *     tags: [Standings]
+ *     responses:
+ *       200:
+ *         description: Standings for active season
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Standings'
+ */
+router.get("/seasons/active/standings", getActiveSeasonStandings);
 export default router;
