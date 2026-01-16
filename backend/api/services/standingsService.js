@@ -15,7 +15,11 @@ export async function getActiveSeasonStandings() {
 
     const activeSeason = activeSeasons[0];
     const standings = await standingsClient.getStandings({ season: activeSeason._id });
-    return standings;
+	if (standings.length === 0) {
+		throw new Error("Standings not found for active season");
+	}
+
+    return standings[0];
 }
 
 export async function recalculateStandings(seasonId) {
