@@ -11,3 +11,18 @@ body {
   background-repeat: no-repeat;
 }
 
+/* Title font */
+@font-face {
+  font-family: "Tw Cen MT";
+  src: url("/fonts/Tw_Cen_MT.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Body font */
+@font-face {
+  font-family: "Tw Cen MT Condensed Bold";
+  src: url("/fonts/Tw_Cen_MT_Condensed_Bold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
