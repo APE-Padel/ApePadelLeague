@@ -12,7 +12,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="ca">
-      <body>
+      <body className="app-bg">
         <ThemeRegistry>
           <Header/>
           {children}
