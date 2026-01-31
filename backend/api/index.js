@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import routes from "./routes.js";
 import mongoose from "mongoose";
+import serverless from "serverless-http";
 import { swaggerUi, swaggerSpec } from "./swagger.js";
 
 dotenv.config();
@@ -37,4 +38,4 @@ if (isLocal()) {
   });
 }
 
-export default app;
+export const handler = serverless(app);
