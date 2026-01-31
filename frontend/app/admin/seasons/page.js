@@ -9,8 +9,14 @@ import {
 import HomeIcon from '@mui/icons-material/Home';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import ConstructionIcon from '@mui/icons-material/Construction';
+import { featureFlags } from '@/lib/featureFlags';
+import { notFound } from 'next/navigation';
 
-export default function PlayersAdmin() {
+export default function SeasonsAdmin() {
+  if (!featureFlags.adminSeasons) {
+    return notFound();
+  }
+
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
       <Breadcrumbs 
