@@ -2,6 +2,7 @@ import { Router } from "express";
 import { createSeason, getAllSeasons } from "./controllers/seasonsController.js";
 import { getAllTeams, createTeam } from "./controllers/teamsController.js";
 import { createMatch, getActiveSeasonMatches } from "./controllers/matchesController.js";
+import { getActiveSeasonStandings, recalculateStandings } from "./controllers/standingsController.js";
 
 const router = Router();
 
@@ -146,5 +147,49 @@ router.get("/seasons/active/matches", getActiveSeasonMatches);
  *         description: Match created successfully
  */
 router.post("/matches", createMatch);
+
+/**
+ * @swagger
+ * /seasons/active/standings:
+ *   get:
+ *     summary: Get standings for active season
+ *     tags: [Standings]
+ *     responses:
+ *       200:
+ *         description: Standings for active season
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Standings'
+ */
+router.get("/seasons/active/standings", getActiveSeasonStandings);
+
+/**
+ * @swagger
+ * /seasons/{seasonId}/standings/recalculate:
+ *   post:
+ *     summary: Recalculate standings for a season
+ *     tags:
+ *       - Standings
+ *     parameters:
+ *       - in: path
+ *         name: seasonId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID of the season to recalculate standings for
+ *     responses:
+ *       200:
+ *         description: Standings recalculated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Standings recalculated successfully
+ */
+router.post("/seasons/:seasonId/standings/recalculate", recalculateStandings);
 
 export default router;
