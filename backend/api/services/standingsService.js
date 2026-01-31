@@ -2,7 +2,7 @@ import * as seasonsClient from "../data/seasonsClient.js";
 import * as standingsClient from "../data/standingsClient.js";
 import * as matchesClient from "../data/matchesClient.js";
 import { MATCH_STATUS } from "../constants.js";
-import GamesWonTieBreaker from "./tieBreakers/gamesWonTieBreaker.js";
+import PointsTieBreaker from "./tieBreakers/pointsTieBreaker.js";
 import TotalDiffTieBreaker from "./tieBreakers/totalDiffTieBreaker.js";
 import PointsScoredTieBreaker from "./tieBreakers/pointsScoredTieBreaker.js";
 import HeadToHeadDiffTieBreaker from "./tieBreakers/headToHeadDiffTieBreaker.js";
@@ -78,14 +78,18 @@ function computeBasicStats(season, completedMatches) {
         awayStats.pointsAgainst += homeScore;
 
         if (homeScore > awayScore) {
+            homeStats.points += 3;
             homeStats.gamesWon += 1;
             awayStats.gamesLost += 1;
         } 
         else if (homeScore < awayScore) {
+            awayStats.points += 3;
             awayStats.gamesWon += 1;
             homeStats.gamesLost += 1;
         } 
         else {
+            homeStats.points += 1;
+            awayStats.points += 1;
             homeStats.gamesDraw += 1;
             awayStats.gamesDraw += 1;
         }
@@ -103,7 +107,7 @@ function computeBasicStats(season, completedMatches) {
 }
 
 function setDefaultStatus(season) {
-  const defaultTeamStats = { gamesWon: 0, gamesLost: 0, gamesDraw: 0, pointsFor: 0, pointsAgainst: 0 };
+  const defaultTeamStats = { points: 0, gamesWon: 0, gamesLost: 0, gamesDraw: 0, pointsFor: 0, pointsAgainst: 0 };
   
   return new Map(
     season.teams.map(teamId => [teamId.toString(), { ...defaultTeamStats }])
@@ -112,7 +116,7 @@ function setDefaultStatus(season) {
 
 function sortStandingsTable(table, completedMatches) {
     const tieBreakers = [
-        new GamesWonTieBreaker(),
+        new PointsTieBreaker(),
         new HeadToHeadDiffTieBreaker(completedMatches),
         new TotalDiffTieBreaker(),
         new PointsScoredTieBreaker()

@@ -16,6 +16,7 @@ const standingsSchema = new mongoose.Schema({
         required: true
       },
       position: Number,
+      points: Number,
       gamesWon: Number,
       gamesLost: Number,
       gamesDraw: Number,

@@ -65,12 +65,11 @@ export default async function ClassificacioPage() {
               const gamesPlayed = row.gamesWon + row.gamesLost + row.gamesDraw;
               const average = row.pointsFor - row.pointsAgainst;
               const averageSign = average >= 0 ? '+' : '';
-              const points = (row.gamesWon * 3) + (row.gamesDraw);
 
               return (
                 <TableRow key={row.team._id} sx={tableRowStyle}>
 
-                  <TableCell sx={{...cellStyle, ...bigTextStyle}} align="center">
+                  <TableCell sx={positionCellStyle(row.position)} align="center">
                     {row.position}
                   </TableCell>
 
@@ -87,7 +86,7 @@ export default async function ClassificacioPage() {
                   <TableCell sx={cellWithBorderStyle} align="center">{row.gamesDraw}</TableCell>
                   <TableCell sx={cellWithBorderStyle} align="center">{averageSign}{average}</TableCell>
 
-                  <TableCell sx={{...cellStyle, ...bigTextStyle}} align="center">{points}</TableCell>
+                  <TableCell sx={{...cellStyle, ...bigTextStyle}} align="center">{row.points}</TableCell>
 
                 </TableRow>
               )
@@ -173,6 +172,13 @@ const cellWithBorderStyle = {
     backgroundColor: '#ffffff84'
   }
 };
+
+const positionCellStyle = (position) => ({
+  ...cellStyle,
+  ...bigTextStyle,
+  color: position === 1 ? '#FFD700' : '#fff',
+  textShadow: position === 1 ? '0 0 8px rgba(255, 215, 0, 0.8)' : 'none'
+});
 
 const logoCellStyle = {
   position: 'relative',
