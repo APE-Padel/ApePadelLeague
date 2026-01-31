@@ -10,6 +10,7 @@ import {
   Paper,
   Avatar
 } from '@mui/material'
+import { featureFlags } from '@/lib/featureFlags';
 
 async function getStandings() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seasons/active/standings`, {
@@ -24,6 +25,11 @@ async function getStandings() {
 }
 
 export default async function ClassificacioPage() {
+
+  if (!featureFlags.standings) {
+    return notFound();
+  }
+
   const { table } = await getStandings();
   const sortedTable = table.sort((a, b) => a.position - b.position);
 

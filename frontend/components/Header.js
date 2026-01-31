@@ -19,6 +19,7 @@ const pages = [
   { displayName: "Inici", path: "/", enabled: true },
   { displayName: "Calendari", path: "/calendar", enabled: featureFlags.calendar },
   { displayName: "Equips", path: "/teams", enabled: featureFlags.teams },
+  { displayName: "Classificació", path: "/standings", enabled: featureFlags.standings },
   { displayName: "Admin", path: "/admin", enabled: featureFlags.admin },
 ];
 

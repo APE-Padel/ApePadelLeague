@@ -1,6 +1,7 @@
 export const featureFlags = {
   calendar: true,
   teams: true,
+  standings: true,
   admin: true,
   adminMatches: true,
   adminPlayers: true,
