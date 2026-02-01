@@ -6,26 +6,30 @@ export default function PadelBallLoader() {
   const theme = useTheme();
 
   return (
-    <Backdrop
-      open={true}
-      sx={{
-        zIndex: theme.zIndex.appBar + 1,
-        backgroundColor: "rgba(255,255,255,0.7)",
-      }}
-    >
+    <Backdrop open={true} sx={containerStyle(theme)}>
       <Box
         component="img"
         src="/padel-ball.png"
         alt="Padel Ball Loader"
-        sx={{
-          width: 164,
-          height: 164,
-          animation: "spin 1s linear infinite",
-          "@keyframes spin": {
-            to: { transform: "rotate(360deg)" },
-          },
-        }}
+        sx={loaderStyle}
       />
     </Backdrop>
   );
 }
+
+/* Styles */
+
+const containerStyle = (theme) => ({
+  zIndex: theme.zIndex.appBar + 1,
+  backgroundColor: "transparent"
+});
+
+const loaderStyle = {
+  width: 164,
+  height: 164,
+  animation: "spin 1s linear infinite",
+  "@keyframes spin": {
+    to: { transform: "rotate(360deg)" },
+  }
+}
+
