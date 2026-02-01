@@ -3,6 +3,7 @@ import { createSeason, getAllSeasons } from "../controllers/seasonsController.js
 import { getAllTeams, createTeam } from "../controllers/teamsController.js";
 import { createMatch, getActiveSeasonMatches } from "../controllers/matchesController.js";
 import { getActiveSeasonStandings, recalculateStandings } from "../controllers/standingsController.js";
+import { registerUser, login } from "../controllers/authController.js";
 
 const router = Router();
 
@@ -191,6 +192,58 @@ router.get("/seasons/active/standings", getActiveSeasonStandings);
  *                   example: Standings recalculated successfully
  */
 router.post("/seasons/:seasonId/standings/recalculate", recalculateStandings);
+
+/**
+ * @swagger
+ * /auth/login:
+ *   post:
+ *     summary: Login a user
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Successful login
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *       401:
+ *         description: Invalid credentials
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *             example:
+ *               message: Invalid username or password
+ *       500:
+ *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *             example:
+ *               message: Server error
+ */
+router.post("/auth/login", login);
 
 /**
  * @swagger

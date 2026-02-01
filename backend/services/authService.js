@@ -4,6 +4,32 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { ERROR_CODES } from "../constants.js";
 
+dotenv.config();
+const JWT_SECRET = process.env.JWT_SECRET;
+
+export async function login(username, password) {
+  username = username.toLowerCase();
+  const users = await usersClient.getUsers({ username });
+  const user = users[0];
+
+  if (!user) {
+    handleInvalidCredentials();
+  }
+
+  const isValid = await bcrypt.compare(password, user.password);
+  if (!isValid) {
+    handleInvalidCredentials();
+  }
+
+  const payload = {
+    username: user.username,
+    role: user.role,
+  };
+
+  const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "48h" });
+  return token;
+};
+
 export async function registerUser(username, password) {
     username = username.toLowerCase();
     const existingUser = await usersClient.getUsers({ username });
@@ -23,4 +49,10 @@ export async function registerUser(username, password) {
 
     const user = await usersClient.createUser(userProps);
     return user;
+}
+
+function handleInvalidCredentials() {
+    const error = new Error('Invalid credentials');
+    error.code = ERROR_CODES.INVALID_CREDENTIALS;
+    throw error;
 }
