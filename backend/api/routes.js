@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { createSeason, getAllSeasons } from "./controllers/seasonsController.js";
-import { getAllTeams, createTeam } from "./controllers/teamsController.js";
-import { createMatch, getActiveSeasonMatches } from "./controllers/matchesController.js";
-import { getActiveSeasonStandings, recalculateStandings } from "./controllers/standingsController.js";
+import { createSeason, getAllSeasons } from "../controllers/seasonsController.js";
+import { getAllTeams, createTeam } from "../controllers/teamsController.js";
+import { createMatch, getActiveSeasonMatches } from "../controllers/matchesController.js";
+import { getActiveSeasonStandings, recalculateStandings } from "../controllers/standingsController.js";
 
 const router = Router();
 
