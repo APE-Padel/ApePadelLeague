@@ -11,6 +11,19 @@ export const getActiveSeasonMatches = async (_, res) => {
     }
 };
 
+export const updateMatchResult = async (req, res) => {
+  try {
+    const { matchId } = req.params;
+    const { homeScore, awayScore } = req.body;
+    
+    await Service.updateMatchResult(matchId, homeScore, awayScore);
+    res.status(200).json({ message: "Match result updated successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 export const createMatch = async (req, res) => {
   try {
     const matchProps = req.body;

@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import Standings from "../models/standings.js";
 
 export async function getStandings(filters = {}) {
@@ -16,10 +15,6 @@ export async function createStandings(standingsProps) {
 }
 
 export async function updateStandingsById(standingsId, updateProps) {
-  if (!mongoose.Types.ObjectId.isValid(standingsId)) {
-    throw new Error('Invalid standings ID');
-  }
-
   const updatedStandings = await Standings.findByIdAndUpdate(
     standingsId,
     updateProps,

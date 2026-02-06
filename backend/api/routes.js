@@ -1,9 +1,11 @@
 import { Router } from "express";
 import { createSeason, getAllSeasons } from "../controllers/seasonsController.js";
-import { getAllTeams, createTeam } from "../controllers/teamsController.js";
-import { createMatch, getActiveSeasonMatches } from "../controllers/matchesController.js";
+import { getAllTeams, getActiveSeasonTeams, createTeam } from "../controllers/teamsController.js";
+import { createMatch, getActiveSeasonMatches, updateMatchResult } from "../controllers/matchesController.js";
 import { getActiveSeasonStandings, recalculateStandings } from "../controllers/standingsController.js";
 import { registerUser, login } from "../controllers/authController.js";
+import { authenticate, authorize } from "../middleware/auth.js";
+import { AUTH_CONDITIONS } from "../constants.js";
 
 const router = Router();
 
@@ -84,6 +86,24 @@ router.get("/teams", getAllTeams);
 
 /**
  * @swagger
+ * /seasons/active/teams:
+ *   get:
+ *     summary: Get teams for active season
+ *     tags: [Teams]
+ *     responses:
+ *       200:
+ *         description: List of teams for active season
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Team'
+ */
+router.get("/seasons/active/teams", getActiveSeasonTeams);
+
+/**
+ * @swagger
  * /teams:
  *   post:
  *     summary: Create a new team
@@ -148,6 +168,77 @@ router.get("/seasons/active/matches", getActiveSeasonMatches);
  *         description: Match created successfully
  */
 router.post("/matches", createMatch);
+
+/**
+ * @swagger
+ * /matches/{matchId}/result:
+ *   put:
+ *     summary: Update the result of a match
+ *     tags: [Matches]
+ *     security:
+ *       - bearerAuth: []  # Indicates JWT Bearer authentication is required
+ *     parameters:
+ *       - in: path
+ *         name: matchId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID of the match to update the result for
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               homeScore:
+ *                 type: integer
+ *               awayScore:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Match result updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Match result updated successfully
+ *       401:
+ *         description: Unauthorized – JWT missing or invalid
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: No token provided
+ *       403:
+ *         description: Forbidden – User does not have permission (not admin or submitter)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Forbidden
+ *       500:
+ *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Server error
+ */
+router.put("/matches/:matchId/result", authenticate, authorize([AUTH_CONDITIONS.SUBMITTER]), updateMatchResult);
+
 
 /**
  * @swagger

@@ -1,23 +1,45 @@
 'use client'
 
-import { useState } from 'react';
+import * as React from 'react';
+import { notFound, useSearchParams } from 'next/navigation';
 import { featureFlags } from '@/lib/featureFlags';
-import { notFound } from 'next/navigation'; 
+import Alert from '@/components/Alert';
+import { LOGIN_REASONS } from '@/lib/constants';
 import {
   Box,
   Typography,
   TextField,
   Button,
   Paper,
-  Alert,
-  Snackbar
+  IconButton,
+  InputAdornment
 } from '@mui/material';
+import {
+  Visibility,
+  VisibilityOff
+} from '@mui/icons-material';
+
 
 export default function LoginPage() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-	const [isErrorOpen, setIsErrorOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get('callbackUrl') || '/';
+  const loginReason = searchParams.get('reason') || null;
+
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [showPassword, setShowPassword] = React.useState(false);
+	
+  const [isErrorOpen, setIsErrorOpen] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState('');
+  const [isInformationOpen, setIsInformationOpen] = React.useState(false);
+  const [informationMessage, setInformationMessage] = React.useState('');
+
+  React.useEffect(() => {
+    if (loginReason === LOGIN_REASONS.AUTH_REQUIRED) {
+      setInformationMessage('Has de iniciar sessió per accedir a aquesta pàgina.');
+      setIsInformationOpen(true);
+    }
+  }, []);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -28,7 +50,7 @@ export default function LoginPage() {
 			body: JSON.stringify({ username, password })
 		};
 		
-		const res = await fetch('/api/login', request);
+		const res = await fetch('/api/auth/login', request);
 
 		if (res.status === 401) {
 			setErrorMessage('L\'usuari o la contrasenya no són vàlids.');
@@ -42,10 +64,9 @@ export default function LoginPage() {
 			return;
 		}
 
-		window.location.href = '/'
+    // Redirect + Refresh page for user data in header
+		window.location.href = callbackUrl;
 	};
-
-	const handleClose = () => setIsErrorOpen(false);
 
   if (!featureFlags.login) {
     return notFound();
@@ -70,12 +91,27 @@ export default function LoginPage() {
 
           <TextField
             label="Contrasenya"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             variant="outlined"
             fullWidth
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             sx={inputStyle}
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPassword((prev) => !prev)}
+                      edge="end"
+                      sx={{ color: '#fff' }}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              },
+            }}
           />
 
           <Button
@@ -89,11 +125,8 @@ export default function LoginPage() {
         </Box>
       </Paper>
 
-			<Snackbar open={isErrorOpen} autoHideDuration={4000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-          {errorMessage}
-        </Alert>
-      </Snackbar>
+			<Alert severity="error" isOpen={isErrorOpen} setIsOpen={setIsErrorOpen} message={errorMessage} />
+      <Alert severity="info" isOpen={isInformationOpen} setIsOpen={setIsInformationOpen} message={informationMessage} />
     </Box>
   )
 }

@@ -21,7 +21,7 @@ async function getStandings() {
     throw new Error('Failed to fetch standings data');
   }
 
-  return await res.json()
+  return await res.json();
 }
 
 export default async function ClassificacioPage() {
