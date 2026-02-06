@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react';
+import * as React from 'react';
+import { notFound, useSearchParams } from 'next/navigation';
 import { featureFlags } from '@/lib/featureFlags';
-import { notFound } from 'next/navigation'; 
+import { LOGIN_REASONS } from '@/lib/constants';
 import {
   Box,
   Typography,
@@ -19,8 +20,25 @@ import {
 
 
 export default function LoginPage() {
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get('callbackUrl') || '/';
+  const loginReason = searchParams.get('reason') || null;
+
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
   const [showPassword, setShowPassword] = React.useState(false);
 	
+  const [isErrorOpen, setIsErrorOpen] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState('');
+  const [isInformationOpen, setIsInformationOpen] = React.useState(false);
+  const [informationMessage, setInformationMessage] = React.useState('');
+
+  React.useEffect(() => {
+    if (loginReason === LOGIN_REASONS.AUTH_REQUIRED) {
+      setInformationMessage('Has de iniciar sessió per accedir a aquesta pàgina.');
+      setIsInformationOpen(true);
+    }
+  }, []);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -31,7 +49,7 @@ export default function LoginPage() {
 			body: JSON.stringify({ username, password })
 		};
 		
-		const res = await fetch('/api/login', request);
+		const res = await fetch('/api/auth/login', request);
 
 		if (res.status === 401) {
 			setErrorMessage('L\'usuari o la contrasenya no són vàlids.');
@@ -45,10 +63,9 @@ export default function LoginPage() {
 			return;
 		}
 
-		window.location.href = '/'
+    // Redirect + Refresh page for user data in header
+		window.location.href = callbackUrl;
 	};
-
-	const handleClose = () => setIsErrorOpen(false);
 
   if (!featureFlags.login) {
     return notFound();
