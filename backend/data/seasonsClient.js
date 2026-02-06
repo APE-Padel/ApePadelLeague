@@ -7,6 +7,9 @@ export async function getSeasons(filters = {}) {
 
 export async function getSeasonById(seasonId) {
     const result = await Season.findById(seasonId);
+    if (!result) {
+		throw new Error("Season not found");
+	}    
     return result;
 }
 

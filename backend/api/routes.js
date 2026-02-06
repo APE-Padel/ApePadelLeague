@@ -84,6 +84,24 @@ router.get("/teams", getAllTeams);
 
 /**
  * @swagger
+ * /seasons/active/teams:
+ *   get:
+ *     summary: Get teams for active season
+ *     tags: [Teams]
+ *     responses:
+ *       200:
+ *         description: List of teams for active season
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Team'
+ */
+router.get("/seasons/active/teams", getActiveSeasonTeams);
+
+/**
+ * @swagger
  * /teams:
  *   post:
  *     summary: Create a new team

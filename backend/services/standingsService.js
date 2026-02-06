@@ -24,9 +24,6 @@ export async function getActiveSeasonStandings() {
 
 export async function recalculateStandings(seasonId) {
 	const season = await seasonsClient.getSeasonById(seasonId);
-	if (!season) {
-		throw new Error("Season not found");
-	}
 
     const matchesFilters = { season: seasonId, status: MATCH_STATUS.COMPLETED };
     const completedMatches = await matchesClient.getMatches(matchesFilters);
