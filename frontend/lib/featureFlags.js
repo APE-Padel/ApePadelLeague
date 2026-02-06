@@ -3,6 +3,7 @@ export const featureFlags = {
   teams: true,
   standings: true,
   login: true,
+  editResults: true,
   admin: true,
   adminMatches: true,
   adminPlayers: true,
