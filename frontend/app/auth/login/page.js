@@ -9,15 +9,18 @@ import {
   TextField,
   Button,
   Paper,
-  Alert,
-  Snackbar
+  IconButton,
+  InputAdornment
 } from '@mui/material';
+import {
+  Visibility,
+  VisibilityOff
+} from '@mui/icons-material';
+
 
 export default function LoginPage() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-	const [isErrorOpen, setIsErrorOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [showPassword, setShowPassword] = React.useState(false);
+	
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -70,12 +73,27 @@ export default function LoginPage() {
 
           <TextField
             label="Contrasenya"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             variant="outlined"
             fullWidth
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             sx={inputStyle}
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPassword((prev) => !prev)}
+                      edge="end"
+                      sx={{ color: '#fff' }}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              },
+            }}
           />
 
           <Button
