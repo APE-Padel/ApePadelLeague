@@ -27,6 +27,7 @@ const pages = [
   { displayName: "Classificació", path: "/standings", enabled: featureFlags.standings },
   { displayName: "Login", path: "/auth/login", enabled: featureFlags.login },
   { displayName: "Admin", path: "/admin", enabled: featureFlags.admin },
+  { displayName: "Resultats", path: "/matches/results", enabled: featureFlags.editResults }
 ];
 
 const visiblePages = pages.filter(page => page.enabled);
@@ -39,7 +40,7 @@ export default function Header() {
 
   const fetchUser = async () => {
     try {
-      const res = await fetch("/api/me", { credentials: "include" });
+      const res = await fetch("/api/auth/me", { credentials: "include" });
 
       if (!res.ok) {
         setUser(null);
@@ -54,7 +55,7 @@ export default function Header() {
   };
 
   const handleLogout = async () => {
-    await fetch("/api/logout", { method: "POST", credentials: "include" });
+    await fetch("/api/auth/logout", { method: "POST", credentials: "include" });
     setUser(null);
     setAccountMenuAnchor(null);
     window.location.href = "/";
