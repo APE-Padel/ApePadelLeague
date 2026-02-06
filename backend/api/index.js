@@ -25,6 +25,7 @@ app.use(cors({
   origin: "https://ui-ape-padel-league.vercel.app",
   credentials: true
 }));
+
 app.use(express.json());
 
 // Swagger docs
