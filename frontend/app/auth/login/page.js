@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { notFound, useSearchParams } from 'next/navigation';
 import { featureFlags } from '@/lib/featureFlags';
+import Alert from '@/components/Alert';
 import { LOGIN_REASONS } from '@/lib/constants';
 import {
   Box,
@@ -124,11 +125,8 @@ export default function LoginPage() {
         </Box>
       </Paper>
 
-			<Snackbar open={isErrorOpen} autoHideDuration={4000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-          {errorMessage}
-        </Alert>
-      </Snackbar>
+			<Alert severity="error" isOpen={isErrorOpen} setIsOpen={setIsErrorOpen} message={errorMessage} />
+      <Alert severity="info" isOpen={isInformationOpen} setIsOpen={setIsInformationOpen} message={informationMessage} />
     </Box>
   )
 }
