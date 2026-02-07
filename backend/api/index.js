@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import routes from "./routes.js";
 import mongoose from "mongoose";
+import { ALLOWED_CLIENT_URLS } from "../constants.js";
 import { swaggerUi, swaggerSpec } from "./swagger.js";
 
 dotenv.config();
@@ -22,9 +23,20 @@ const connectDB = async () => {
 }
 
 app.use(cors({
-  origin: "https://ui-ape-padel-league.vercel.app",
-  credentials: true
+  origin: (origin, callback) => {
+    // No-browser clients
+    if (!origin) return callback(null, true);
+
+    if (ALLOWED_CLIENT_URLS.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error("Blocked by CORS"));
+  },
+  methods: ["GET","POST","PUT","DELETE","PATCH"],
+  allowedHeaders: ["Content-Type","Authorization"]
 }));
+
 
 app.use(express.json());
 
