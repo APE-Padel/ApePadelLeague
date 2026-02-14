@@ -30,19 +30,19 @@ export default function Calendar() {
           </Typography>
         </Box>
 
-        <Box sx={{ display: 'flex', justifyContent: 'center' , mt: -40, pt:-20, overflow: 'hidden' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', overflow: 'hidden', pr: { xs: 3, md: 0 } }}>
           <img
             src={isSmallScreen 
-              ? "/Calendari_Fons Transparent_1 Columna.png" 
-              : "/Calendari_Fons Transparent_3 Columnes.png"
+              ? "/calendar-vertical-mobile-view.png" 
+              : "/calendar-horizontal-pc-view.png"
             }
             alt="Calendar"
             style={{
-              width: isSmallScreen ? '100vw' : 'auto',
-              maxWidth: isSmallScreen ? 'none' : '100%',
+              width: isSmallScreen ? '80%' : 'auto',
+              maxWidth: isSmallScreen ? '80%' : '100%',
               height: isSmallScreen ? 'auto' : 'auto',
               display: 'block',
-              objectFit: isSmallScreen ? 'cover' : 'contain',
+              objectFit: isSmallScreen ? 'contain' : 'contain',
               objectPosition: 'center'
             }}
           />
