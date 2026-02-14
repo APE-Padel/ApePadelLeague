@@ -1,6 +1,7 @@
 export const ALLOWED_CLIENT_URLS = Object.freeze([
 	"https://ui-ape-padel-league.vercel.app",
-	"http://localhost:3000"
+	"http://localhost:3000",
+	"http://localhost:3001"
 ]);
 
 export const MATCH_STATUS = Object.freeze({
