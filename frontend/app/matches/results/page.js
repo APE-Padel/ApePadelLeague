@@ -19,33 +19,6 @@ import {
   Avatar
 } from '@mui/material';
 
-function TeamCard({logoBase64, teamName}) {
-  return (
-    <Box sx={teamStyle}>
-      <Avatar
-        src={logoBase64 || ''}
-        alt={teamName}
-        sx={teamLogoStyle}
-      />
-      <Typography>{teamName}</Typography>
-    </Box>
-  )
-}
-
-function ResultInput({result, setResult, teamName}){
-  return (
-    <Box sx={{ textAlign: 'center' }}>
-      <TextField
-        type="number"
-        value={result}
-        onChange={(e) => setResult(e.target.value)}
-        sx={resultInputStyle}
-      />
-      <Typography sx={{ mt: 1 }}>Punts {teamName}</Typography>
-    </Box>
-  );
-}
-
 export default function EnterMatchResults() {
   const router = useRouter();
   
@@ -294,6 +267,35 @@ export default function EnterMatchResults() {
       />
     </Box>
   )
+}
+
+/* Components */
+
+function TeamCard({logoBase64, teamName}) {
+  return (
+    <Box sx={teamStyle}>
+      <Avatar
+        src={logoBase64 || ''}
+        alt={teamName}
+        sx={teamLogoStyle}
+      />
+      <Typography>{teamName}</Typography>
+    </Box>
+  )
+}
+
+function ResultInput({result, setResult, teamName}){
+  return (
+    <Box sx={{ textAlign: 'center' }}>
+      <TextField
+        type="number"
+        value={result}
+        onChange={(e) => setResult(e.target.value)}
+        sx={resultInputStyle}
+      />
+      <Typography sx={{ mt: 1 }}>Punts {teamName}</Typography>
+    </Box>
+  );
 }
 
 /* Styles */

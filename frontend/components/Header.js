@@ -23,11 +23,11 @@ import { featureFlags } from "@/lib/featureFlags";
 const pages = [
   { displayName: "Inici", path: "/", enabled: true },
   { displayName: "Calendari", path: "/calendar", enabled: featureFlags.calendar },
-  { displayName: "Equips", path: "/teams", enabled: featureFlags.teams },
   { displayName: "Classificació", path: "/standings", enabled: featureFlags.standings },
-  { displayName: "Login", path: "/auth/login", enabled: featureFlags.login },
-  { displayName: "Admin", path: "/admin", enabled: featureFlags.admin },
-  { displayName: "Resultats", path: "/matches/results", enabled: featureFlags.editResults }
+  { displayName: "Equips", path: "/teams", enabled: featureFlags.teams },
+  { displayName: "Reglament", path: "/rules", enabled: featureFlags.rules },
+  { displayName: "Editar Resultats", path: "/matches/results", enabled: featureFlags.editResults },
+  { displayName: "Admin", path: "/admin", enabled: featureFlags.admin }
 ];
 
 const visiblePages = pages.filter(page => page.enabled);
@@ -91,7 +91,7 @@ export default function Header() {
               ))}
             </Box>
 
-            {/* Desktop Account Menu */}
+            {/* Desktop Account Icon and Menu */}
             {user && (
               <Box sx={hideOnMobile}>
                 <Tooltip title="Compte">
@@ -133,7 +133,7 @@ export default function Header() {
               </IconButton>
             </Box>
 
-            {/* Mobile Account Menu */}
+            {/* Mobile Account Icon */}
             {user && (
               <Box sx={{ ...hideOnDesktop, ml: 1 }}>
                 <IconButton
@@ -173,7 +173,7 @@ export default function Header() {
         </Box>
       </Drawer>
 
-      {/* Mobile Account Menu */}
+      {/* Mobile Fullscreen Account Menu */}
       <Drawer
         anchor="top"
         open={mobileAccountMenuOpen}

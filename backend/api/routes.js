@@ -64,7 +64,7 @@ router.get("/seasons", getAllSeasons);
  *       201:
  *         description: Season created successfully
  */
-router.post("/seasons", createSeason);
+router.post("/seasons", authenticate, authorize, createSeason);
 
 /**
  * @swagger
@@ -121,7 +121,7 @@ router.get("/seasons/active/teams", getActiveSeasonTeams);
  *       201:
  *         description: Team created successfully
  */
-router.post("/teams", createTeam);
+router.post("/teams", authenticate, authorize, createTeam);
 
 /**
  * @swagger
@@ -167,7 +167,7 @@ router.get("/seasons/active/matches", getActiveSeasonMatches);
  *       201:
  *         description: Match created successfully
  */
-router.post("/matches", createMatch);
+router.post("/matches", authenticate, authorize, createMatch);
 
 /**
  * @swagger
