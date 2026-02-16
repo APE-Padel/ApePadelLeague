@@ -1,200 +1,191 @@
-'use client';
-
-import { useEffect, useState } from 'react';
 import {
   Box,
-  Container,
   Typography,
-  Card,
-  CardContent,
-  Avatar,
-  Grid,
-  Chip,
-  Fade,
-  Stack
-} from '@mui/material';
-import GroupsIcon from '@mui/icons-material/Groups';
-import PersonIcon from '@mui/icons-material/Person';
-import PadelBallLoader from '@/components/PadelBallLoader';
-import { featureFlags } from '@/lib/featureFlags';
-import { notFound } from 'next/navigation';
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+  Paper,
+  Avatar
+} from '@mui/material'
+import { featureFlags } from '@/lib/featureFlags'
+import LocationOnIcon from '@mui/icons-material/LocationOn'
+import { notFound } from 'next/navigation'
 
-export default function Teams() {
-  const [teams, setTeams] = useState([]);
-  const [loading, setLoading] = useState(true);
+async function getTeams() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seasons/active/teams`, {
+    cache: 'no-store'
+  })
+  if (!res.ok) throw new Error('Failed to fetch teams')
+  return await res.json()
+}
 
-  useEffect(() => {
-    const fetchTeams = async () => {
-      try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/teams`);
-        const data = await response.json();
-        setTeams(data);
-      } catch (error) {
-        console.error('Error fetching teams:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+export default async function TeamsPage() {
+  if (!featureFlags.teams) return notFound()
 
-    fetchTeams();
-  }, []);
-
-  if (!featureFlags.teams) {
-    return notFound();
-  }
-
-  if (loading) {
-    return (
-      <PadelBallLoader />
-    );
-  }
+  const teams = await getTeams()
 
   return (
-    <Box sx={{ bgcolor: '#f5f5f5', minHeight: '100vh', py: 6 }}>
-      <Container maxWidth="lg">
-        <Fade in={true} timeout={800}>
-          <Box>
-            <Box sx={{ textAlign: 'center', mb: 6 }}>
-              <Typography 
-                variant="h2" 
-                component="h1" 
-                gutterBottom 
-                sx={{ 
-                  fontWeight: 700,
-                  background: 'linear-gradient(135deg, #b71c1c 0%, #d32f2f 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text'
-                }}
-              >
-                Equips de la Lliga
-              </Typography>
-              <Typography variant="h6" color="text.secondary">
-                Coneix els {teams.length} equips participants
-              </Typography>
-            </Box>
+    <Box sx={{ p: 4 }}>
+      <Typography variant="h4" sx={titleStyle}>
+        {teams.length} EQUIPS PARTICIPANTS
+      </Typography>
 
-            <Grid container spacing={4}>
-              {teams.map((team, index) => (
-                <Grid item xs={12} sm={6} md={4} key={team._id}>
-                  <Fade in={true} timeout={1000 + index * 100}>
-                    <Card
-                      elevation={4}
-                      sx={{
-                        height: '100%',
-                        transition: 'all 0.3s',
-                        cursor: 'pointer',
-                        position: 'relative',
-                        overflow: 'hidden',
-                        '&:hover': {
-                          transform: 'translateY(-12px) scale(1.02)',
-                          boxShadow: 8,
-                          '& .team-avatar': {
-                            transform: 'scale(1.1) rotate(5deg)',
-                          }
-                        },
-                        '&::before': {
-                          content: '""',
-                          position: 'absolute',
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          height: '5px',
-                          background: 'linear-gradient(90deg, #b71c1c 0%, #d32f2f 100%)',
-                        }
-                      }}
-                    >
-                      <CardContent sx={{ textAlign: 'center', pt: 4, pb: 3 }}>
-                        <Box
-                          className="team-avatar"
-                          sx={{
-                            display: 'inline-flex',
-                            mb: 2,
-                            transition: 'transform 0.3s',
-                          }}
-                        >
-                          <Avatar
-                            src={team.logoBase64}
-                            sx={{
-                              width: 100,
-                              height: 100,
-                              bgcolor: 'linear-gradient(135deg, #b71c1c 0%, #d32f2f 100%)',
-                              boxShadow: 3,
-                              border: '4px solid white'
-                            }}
-                          >
-                            <GroupsIcon sx={{ fontSize: 50 }} />
-                          </Avatar>
-                        </Box>
+      <TableContainer component={Paper} sx={tableContainerStyle}>
+        <Table sx={tableStyle}>
+          <TableBody>
+            {teams.map((team) => (
+              <TableRow key={team._id} sx={tableRowStyle}>
 
-                        <Typography 
-                          variant="h5" 
-                          component="h2" 
-                          gutterBottom 
-                          fontWeight={700}
-                          sx={{ mb: 2 }}
-                        >
-                          {team.name}
-                        </Typography>
+                <TableCell sx={logoCellStyle}>
+                  <Avatar sx={logoStyle} src={team.logoBase64} />
+                </TableCell>
 
-                        {team.court && (
-                          <Chip
-                            label={`Pista: ${team.court}`}
-                            size="small"
-                            sx={{
-                              mb: 2,
-                              bgcolor: '#f5f5f5',
-                              fontWeight: 500
-                            }}
-                          />
-                        )}
+                <TableCell sx={{ ...cellWithBorderStyle, width: { xs: 110, md: 180 } }}>
+                  {team.name.toUpperCase()}
+                </TableCell>
 
-                        {team.players && team.players.length > 0 && (
-                          <Box sx={{ mt: 2, pt: 2, borderTop: '1px solid #e0e0e0' }}>
-                            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 1 }}>
-                              <PersonIcon sx={{ fontSize: 20, mr: 0.5, color: 'text.secondary' }} />
-                              <Typography variant="subtitle2" color="text.secondary" fontWeight={600}>
-                                Jugadors
-                              </Typography>
-                            </Box>
-                            <Stack spacing={0.5}>
-                              {team.players.map((player, idx) => (
-                                <Typography 
-                                  key={idx} 
-                                  variant="body2" 
-                                  color="text.primary"
-                                  sx={{ fontWeight: 500 }}
-                                >
-                                  {player}
-                                </Typography>
-                              ))}
-                            </Stack>
-                          </Box>
-                        )}
+                <TableCell sx={cellWithBorderStyle}>
+                  {team.players.join(' i ')}
+                </TableCell>
+                
+                <TableCell sx={cellStyle}>
+                  <Box sx={courtCellContainerStyle}>
 
-                        {(!team.players || team.players.length === 0) && (
-                          <Typography variant="body2" color="text.secondary" sx={{ mt: 2, fontStyle: 'italic' }}>
-                            Sense jugadors assignats
-                          </Typography>
-                        )}
-                      </CardContent>
-                    </Card>
-                  </Fade>
-                </Grid>
-              ))}
-            </Grid>
+                    <Typography sx={{ fontSize: { xs: 12, md: 20 } }}>{team.court.name}</Typography>
 
-            {teams.length === 0 && (
-              <Box sx={{ textAlign: 'center', py: 8 }}>
-                <GroupsIcon sx={{ fontSize: 80, color: 'text.secondary', mb: 2 }} />
-                <Typography variant="h5" color="text.secondary">
-                  No hi ha equips registrats
-                </Typography>
-              </Box>
-            )}
-          </Box>
-        </Fade>
-      </Container>
+                    <Box sx={courtDetailsContainerStyle}>
+                      <Typography sx={courtDetailsTextStyle}>
+                        {team.court.indoor ? 'Indoor' : 'Outdoor'}
+                      </Typography>
+                      <a
+                        href={team.court.locationUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={courtLocationStyle}
+                      >
+                        <LocationOnIcon sx={{ fontSize: { xs: 16, md: 20 } }} />
+                      </a>
+                    </Box>
+
+                  </Box>
+                </TableCell>
+                
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Box>
-  );
+  )
+}
+
+/* ================= STYLES ================= */
+
+const titleStyle = {
+  color: '#fff',
+  textAlign: 'center',
+  letterSpacing: 2,
+  mb: 2,
+  fontSize: { xs: 24, md: 32 }
+}
+
+const tableContainerStyle = {
+  backgroundColor: 'transparent',
+  maxWidth: 800,
+  mx: 'auto',
+  overflow: 'visible'
+}
+
+const tableStyle = {
+  borderCollapse: 'separate',
+  borderSpacing: { xs: '0 20px', md: '0 30px' }
+}
+
+const tableRowStyle = {
+  '& > td': {
+    borderTop: '2px solid #fff',
+    borderBottom: '2px solid #fff',
+    padding: { xs: '6px 8px', md: '12px 16px' },
+    position: 'relative',
+    overflow: 'visible'
+  },
+
+  '& > td:first-of-type': {
+    borderLeft: '2px solid #fff',
+    borderTopLeftRadius: 12,
+    borderBottomLeftRadius: 12
+  },
+
+  '& > td:last-of-type': {
+    borderRight: '2px solid #fff',
+    borderTopRightRadius: 12,
+    borderBottomRightRadius: 12
+  }
+}
+
+const cellStyle = {
+  color: '#fff',
+  fontSize: { xs: 12, md: 20 },
+  padding: { xs: '12px 8px', md: '12px 16px' },
+  borderBottom: 'none',
+  textAlign: 'center'
+}
+
+const cellWithBorderStyle = {
+  ...cellStyle,
+  position: 'relative',
+  '&::after': {
+    content: '""',
+    position: 'absolute',
+    right: 0,
+    top: '50%',
+    transform: 'translateY(-50%)',
+    height: '60%',
+    width: '2px',
+    backgroundColor: '#ffffff70'
+  }
+}
+
+const logoCellStyle = {
+  position: 'relative',
+  width: { xs: 40, md: 90 },
+  padding: 0,
+  overflow: 'visible'
+}
+
+const logoStyle = {
+  width: { xs: 70, md: 125 },
+  height: { xs: 70, md: 125 },
+  position: 'absolute',
+  left: { xs: -30, md: -50 },
+  top: '50%',
+  transform: 'translateY(-50%)',
+  zIndex: 1
+}
+
+const courtCellContainerStyle = {
+  display: 'flex',
+  flexDirection: 'column', 
+  alignItems: 'center', 
+  gap: 0.25 
+}
+
+const courtDetailsContainerStyle = { 
+  display: 'flex', 
+  alignItems: 'center', 
+  gap: 0.5 
+}
+
+const courtDetailsTextStyle = {
+  fontSize: { xs: 10, md: 16 },
+  color: '#ccc',
+  fontWeight: 500
+}
+
+const courtLocationStyle = {
+  color: '#fff', 
+  display: 'flex', 
+  alignItems: 'center' 
 }
