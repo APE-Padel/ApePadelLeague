@@ -156,8 +156,8 @@ const logoCellStyle = {
 }
 
 const logoStyle = {
-  width: { xs: 70, md: 125 },
-  height: { xs: 70, md: 125 },
+  width: { xs: 57, md: 100 },
+  height: { xs: 57, md: 100 },
   position: 'absolute',
   left: { xs: -30, md: -50 },
   top: '50%',

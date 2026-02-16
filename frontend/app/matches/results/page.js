@@ -403,8 +403,8 @@ const teamStyle = {
 }
 
 const teamLogoStyle = {
-  width: { xs: 80, md: 100 },
-  height: { xs: 80, md: 100 },
+  width: { xs: 70, md: 90 },
+  height: { xs: 70, md: 90 },
   mb: 1
 }
 
