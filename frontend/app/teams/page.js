@@ -26,7 +26,7 @@ export default function Teams() {
   useEffect(() => {
     const fetchTeams = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/teams`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/teams`);
         const data = await response.json();
         setTeams(data);
       } catch (error) {
