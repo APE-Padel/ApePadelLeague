@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import InstagramIcon from '@mui/icons-material/Instagram';
 import { useState, useEffect } from 'react';
 import {
   Box,
@@ -18,6 +19,7 @@ import SportsTennisIcon from '@mui/icons-material/SportsTennis';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import GroupsIcon from '@mui/icons-material/Groups';
+import BalanceIcon from '@mui/icons-material/Balance';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Image from 'next/image';
 
@@ -27,21 +29,32 @@ const features = [
     title: 'Calendari de Partits',
     description: 'Consulta tots els partits programats i els resultats',
     href: '/calendar',
-    color: '#d32f2f'
+    color: '#9a1717',
+    textColor: '#ffffff'
   },
   {
     icon: EmojiEventsIcon,
     title: 'Classificació',
     description: 'Segueix la classificació dels equips en temps real',
     href: '/standings',
-    color: '#c62828'
+    color: '#9a1717',
+    textColor: '#ffffff'
   },
   {
     icon: GroupsIcon,
     title: 'Equips',
     description: 'Coneix els equips i jugadors participants',
     href: '/teams',
-    color: '#b71c1c'
+    color: '#9a1717',
+    textColor: '#ffffff'
+  },
+  {
+    icon: BalanceIcon,
+    title: 'Reglament',
+    description: 'Consulta el reglament de la lliga',
+    href: '/rules',
+    color: '#9a1717',
+    textColor: '#ffffff'
   }
 ];
 
@@ -150,6 +163,31 @@ export default function Home() {
                     Veure Calendari
                   </Button>
                 </Link>
+                <Link href="https://www.instagram.com/ape_padel" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                  <Button
+                    variant="outlined"
+                    size="large"
+                    startIcon={<InstagramIcon />}
+                    sx={{
+                      bgcolor: 'white',
+                      color: '#E1306C',
+                      borderColor: '#E1306C',
+                      px: 4,
+                      py: 1.5,
+                      fontSize: '1.1rem',
+                      ml: 2,
+                      '&:hover': {
+                        bgcolor: '#E1306C',
+                        color: 'white',
+                        borderColor: '#E1306C',
+                        boxShadow: 6
+                      },
+                      transition: 'all 0.3s'
+                    }}
+                  >
+                    Instagram
+                  </Button>
+                </Link>
               </Box>
             </Box>
           </Fade>
@@ -190,6 +228,7 @@ export default function Home() {
             component="h2"
             align="center"
             gutterBottom
+            color='#ffffff'
             sx={{ mb: 6, fontWeight: 700 }}
           >
             Descobreix la Lliga
@@ -211,8 +250,8 @@ export default function Home() {
                       cursor: 'pointer',
                       overflow: 'hidden',
                       background: isEven 
-                        ? `linear-gradient(to right, ${feature.color}20 0%, transparent 100%)`
-                        : `linear-gradient(to left, ${feature.color}20 0%, transparent 100%)`,
+                        ? `linear-gradient(to right, transparent 0%, ${feature.color}90 100%)`
+                        : `linear-gradient(to left, transparent 0%, ${feature.color}90 100%)`,
                       '&:hover': {
                         transform: 'translateX(' + (isEven ? '8px' : '-8px') + ')',
                         boxShadow: 8,
@@ -246,15 +285,28 @@ export default function Home() {
                           <IconComponent 
                             sx={{ 
                               fontSize: 80, 
-                              color: feature.color 
+                              color: feature.textColor,
                             }} 
                           />
                         </Box>
                         <Box sx={{ flex: 1, p: 4 }}>
-                          <Typography variant="h5" component="h3" gutterBottom fontWeight={600}>
+                          <Typography 
+                            variant="h4" 
+                            component="h3" 
+                            gutterBottom 
+                            fontWeight={700} 
+                            color={feature.textColor}
+                            align={isEven ? 'right' : 'left'}
+                            sx={{ fontSize: { xs: '2rem', md: '2.25rem' } }}
+                          >
                             {feature.title}
                           </Typography>
-                          <Typography variant="body1" color="text.secondary">
+                          <Typography 
+                            variant="h6" 
+                            color={feature.textColor}
+                            align={isEven ? 'right' : 'left'}
+                            sx={{ fontSize: { xs: '1.2rem', md: '1.5rem' } }}
+                          >
                             {feature.description}
                           </Typography>
                         </Box>
@@ -310,6 +362,18 @@ export default function Home() {
           </Fade>
         </Container>
       </Box>
+    {/* Legal Footer */}
+    <Box component="footer" sx={{ bgcolor: '#222', color: '#fff', py: 3, textAlign: 'center' }}>
+      <Container maxWidth="lg">
+        <Typography variant="body2" sx={{ mb: 1 }}>
+          &copy; {new Date().getFullYear()} Ape Padel League. Tots els drets reservats.
+        </Typography>
+        <Typography variant="body2">
+          <Link href="/privacy" style={{ color: '#fff', textDecoration: 'underline', marginRight: 16 }}>Política de Privacitat</Link>
+          <Link href="/terms" style={{ color: '#fff', textDecoration: 'underline' }}>Termes i Condicions</Link>
+        </Typography>
+      </Container>
     </Box>
+  </Box>
   );
 }
