@@ -7,7 +7,8 @@ import {
   TableContainer,
   TableRow,
   Paper,
-  Avatar
+  Avatar,
+  IconButton
 } from '@mui/material'
 import { featureFlags } from '@/lib/featureFlags'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
@@ -59,14 +60,16 @@ export default async function TeamsPage() {
                       <Typography sx={courtDetailsTextStyle}>
                         {team.court.indoor ? 'Indoor' : 'Outdoor'}
                       </Typography>
-                      <a
-                        href={team.court.locationUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={courtLocationStyle}
-                      >
-                        <LocationOnIcon sx={{ fontSize: { xs: 16, md: 20 } }} />
-                      </a>
+                        <IconButton
+                          component="a"
+                          href={team.court.locationUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          sx={locationButtonStyle}
+                          aria-label={`Open location of ${team.court.name}`}
+                        >
+                          <LocationOnIcon sx={{ fontSize: { xs: 16, md: 20 } }} />
+                        </IconButton>
                     </Box>
 
                   </Box>
@@ -185,8 +188,14 @@ const courtDetailsTextStyle = {
   fontWeight: 500
 }
 
-const courtLocationStyle = {
-  color: '#fff', 
-  display: 'flex', 
-  alignItems: 'center' 
+const locationButtonStyle = {
+  border: '1px solid #ffffff50',
+  borderRadius: 2,
+  color: '#fff',
+  p: { xs: 0.5, md: 0.75 },
+
+  '&:hover': {
+    backgroundColor: '#ffffff15',
+    borderColor: '#fff'
+  }
 }
