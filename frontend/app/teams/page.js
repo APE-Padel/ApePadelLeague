@@ -159,10 +159,11 @@ const logoStyle = {
   width: { xs: 57, md: 100 },
   height: { xs: 57, md: 100 },
   position: 'absolute',
-  left: { xs: -30, md: -50 },
+  left: { xs: -10, md: -50 },
   top: '50%',
   transform: 'translateY(-50%)',
-  zIndex: 1
+  zIndex: 1,
+  borderRadius: 0
 }
 
 const courtCellContainerStyle = {
