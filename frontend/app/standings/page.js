@@ -192,5 +192,6 @@ const logoStyle = {
   left: 0,
   top: '50%',
   transform: 'translateY(-50%)',
-  zIndex: 1
+  zIndex: 1,
+  borderRadius: 0
 };
